@@ -1,12 +1,10 @@
 #!/bin/bash
 
-
 # Connect to wifi using wpa_supplicant,wpa_passphrase, & dhclient.
 # This script is doing the dirty work.
 echo -en "\n\n###########################################################\n"
 echo -en "		     Dirty_Wifi_Connect			\n"
 echo -en "###########################################################\n\n"
-
 
 essid=$1
 wpa_open=$2
