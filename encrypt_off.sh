@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Look for WAP that doesn't use encryption key.
 # Uses grep and iwlist.
 
