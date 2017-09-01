@@ -1,6 +1,7 @@
 #!/bin/bash
 # Look for WAP that doesn't use encryption key.
 # Uses grep and iwlist.
+# iwlist, grep modules must be installed
 
 if iwlist wlan0 scan | grep -C 5 'Encryption key:off'
 then
