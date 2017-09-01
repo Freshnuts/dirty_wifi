@@ -25,6 +25,7 @@ fi
 #
 # WPA
 #
+
 while (( "$#" ))
 do
     if [[ $2 == "0" ]]
@@ -75,6 +76,9 @@ do
     	echo -en "ERROR: Couldn't connect to wifi.\n"
 
 	fi
+
+# Shift to next argument.
+shift
 exit
 #
 # End Script
