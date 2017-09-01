@@ -1,7 +1,7 @@
 #!/bin/bash
+
 # Look for WAP that does use encryption key.
 # Uses iwlist and grep.
-# Modules installed: iwlist, grep
 
 if iwlist wlan0 scan | grep -C 5 'Encryption key:on'
 then
