@@ -30,10 +30,10 @@ fi
 while (( "$#" ))
 do
     if [[ $2 == "0" ]]
-	then
-	    # Configure wpa_passphrase & configuration file
-	    wpa_passphrase $1 $3 > /etc/wpa_supplicant/auto.conf 
-	    wpa_supplicant -B -Dwext -i$4 -c/etc/wpa_supplicant/auto.conf
+    then
+	# Configure wpa_passphrase & configuration file
+	wpa_passphrase $1 $3 > /etc/wpa_supplicant/auto.conf 
+	wpa_supplicant -B -Dwext -i$4 -c/etc/wpa_supplicant/auto.conf
 
         # Allow time for proper connection before asking for IP from DHCP Server
         sleep 1
@@ -45,15 +45,15 @@ do
         sleep 3
 
         echo -en "\n*** Got Internet? ***\n"
-	    break
-	fi
+	break
+    fi
 
 #
 # Open Connection
 #
 
-	if [[ $2 == "1" ]]
-	then
+    if [[ $2 == "1" ]]
+    then
         echo -en "network={\n" > /etc/wpa_supplicant/open.conf
         echo -en "        ssid=\"$1\"\n" >> /etc/wpa_supplicant/open.conf
         echo -en "        key_mgmt=NONE\n" >> /etc/wpa_supplicant/open.conf
@@ -71,14 +71,14 @@ do
         sleep 3
 
         echo -en "\n*** Got Internet?***\n"
-	    break
-	fi
+	break
+    fi
 
-	if [ $2 != "0" ] || [ $2 != "1" ]
-	then
-	    echo -en "Error. Select wpa(0) or open(1).\n"
-	    break
-	fi
+    if [ $2 != "0" ] || [ $2 != "1" ]
+    then
+	echo -en "Error. Select wpa(0) or open(1).\n"
+	break
+    fi
 
 done
 shift	# Shift to next argument.
