@@ -67,7 +67,7 @@ do
 
     	sleep 1
     	echo -en "Obtaining IP Address.\n"
-    	dhclient $4
+    	dhclient $3
     	sleep 3
 
     	echo -en "\n*** Got Internet?***\n"
