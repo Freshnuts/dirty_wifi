@@ -14,10 +14,11 @@ iface=$4
 #
 # Usage
 #
+
 if [[ "$#" < "3" ]]
 then
-	echo -en "usage:\n------\n"
-    echo -en "dirty_wifi.sh [essid] [0:wpa|1:open] [passwd] [iface]\n\n"
+	echo -en "Usage: "
+    echo -en "$0 [essid] [0:wpa|1:open] [passwd] [iface]\n\n"
     echo -en "** If open wifi, skip [passwd]\n"
     exit
 fi
@@ -45,14 +46,12 @@ do
 
     	echo -en "\n*** Got Internet? ***\n"
 		break
-	else
-		echo -en "\n Couldn't Connect. Error\n"
-		break
 	fi
 
 #
 # Open Connection
 #
+
 	if [[ $2 == "1" ]]
 	then
     	echo -en "network={\n" > /etc/wpa_supplicant/open.conf
@@ -60,11 +59,11 @@ do
     	echo -en "        key_mgmt=NONE\n" >> /etc/wpa_supplicant/open.conf
     	echo -en "}\n" >> /etc/wpa_supplicant/open.conf
 
-    	wpa_supplicant -B -Dwext -i$4 -c/etc/wpa_supplicant/open.conf
+    	wpa_supplicant -B -Dwext -i$3 -c/etc/wpa_supplicant/open.conf
 
     	sleep 1
     	echo -en "dhcp client reset\n"
-    	dhclient -r $4
+    	dhclient -r $3
 
     	sleep 1
     	echo -en "Obtaining IP Address.\n"
@@ -72,14 +71,19 @@ do
     	sleep 3
 
     	echo -en "\n*** Got Internet?***\n"
-	else
-    	echo -en "ERROR: Couldn't connect to wifi.\n"
-
+		break
 	fi
 
-# Shift to next argument.
-shift
+	if [ $2 != "0" ] || [ $2 != "1" ]
+	then
+		echo -en "Error. Select wpa(0) or open(1).\n"
+		break
+	fi
+
+done
+shift	# Shift to next argument.
 exit
+
 #
 # End Script
 #
