@@ -15,11 +15,12 @@ iface=$4
 # Usage
 #
 
-if [[ "$#" < "3" ]]
+if [[ "$#" < "2" ]]
 then
-    echo -en "Usage: "
-    echo -en "$0 [essid] [0:wpa|1:open] [passwd] [iface]\n\n"
-    echo -en "** If open wifi, skip [passwd]\n"
+    echo -en "Usage: (WPA)\n"
+    echo -en "$0 [essid] [passwd] [iface]\n\n"
+	echo -en "Usage: (Open)\n"
+    echo -en "$0 [essid] [iface]\n"
     exit
 fi
 
@@ -29,56 +30,51 @@ fi
 
 while (( "$#" ))
 do
-    if [[ $2 == "0" ]]
+    if [[ $# == "3" ]]
     then
-	# Configure wpa_passphrase & configuration file
-	wpa_passphrase $1 $3 > /etc/wpa_supplicant/auto.conf 
-	wpa_supplicant -B -Dwext -i$4 -c/etc/wpa_supplicant/auto.conf
+		# Configure wpa_passphrase & configuration file
+		wpa_passphrase $1 $2 > /etc/wpa_supplicant/auto.conf 
+		wpa_supplicant -B -Dwext -i$3 -c/etc/wpa_supplicant/auto.conf
 
         # Allow time for proper connection before asking for IP from DHCP Server
         sleep 1
         echo -en "DHCP client reset\n"
-        dhclient -r $4
+        dhclient -r $3
 
         echo -en "Obtaining IP address\n"
-        dhclient $4
+        dhclient $3
         sleep 3
 
         echo -en "\n*** Got Internet? ***\n"
-	break
+		break
     fi
 
 #
 # Open Connection
 #
 
-    if [[ $2 == "1" ]]
+    if [[ $# == "2" ]]
     then
         echo -en "network={\n" > /etc/wpa_supplicant/open.conf
         echo -en "        ssid=\"$1\"\n" >> /etc/wpa_supplicant/open.conf
         echo -en "        key_mgmt=NONE\n" >> /etc/wpa_supplicant/open.conf
         echo -en "}\n" >> /etc/wpa_supplicant/open.conf
 
-        wpa_supplicant -B -Dwext -i$3 -c/etc/wpa_supplicant/open.conf
+        wpa_supplicant -B -Dwext -i$2 -c/etc/wpa_supplicant/open.conf
 
         sleep 1
         echo -en "dhcp client reset\n"
-        dhclient -r $3
+        dhclient -r $2
 
         sleep 1
         echo -en "Obtaining IP Address.\n"
-        dhclient $3
+        dhclient $2
         sleep 3
 
         echo -en "\n*** Got Internet?***\n"
-	break
+		break
     fi
 
-    if [ $2 != "0" ] || [ $2 != "1" ]
-    then
-	echo -en "Error. Select wpa(0) or open(1).\n"
-	break
-    fi
 
 done
 shift	# Shift to next argument.
