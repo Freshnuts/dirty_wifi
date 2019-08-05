@@ -20,7 +20,7 @@ then
     echo -en "Usage: (WPA)\n"
     echo -en "WPA:     $0 [essid] [passwd] [iface]\n"
     echo -en "OPEN:    $0 [essid] [iface]\n"
-    echo -en "CONFIG:  $0 [essid] [iface] -c [file.conf]\n"
+    echo -en "CONFIG:  $0 [essid] [iface] [-c] [file.conf]\n"
     exit
 fi
 
